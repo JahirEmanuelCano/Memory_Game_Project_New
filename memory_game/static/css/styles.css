@@ -1,0 +1,110 @@
+/* General page layout */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Container for the cards */
+.board {
+    display: grid;
+    grid-template-columns: repeat(4, 80px);
+    grid-gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Individual card style */
+.card {
+    width: 80px;
+    height: 80px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Style for cards that have been matched */
+.card.matched {
+    background-color: #777;
+}
+
+/* Winning message */
+#message {
+    margin-top: 20px;
+    font-size: 24px;
+    color: green;
+    font-weight: bold;
+}
+
+/* Container for phase and move display */
+#game-status {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding: 10px;
+    background: #e8e8e8;
+    border-radius: 5px;
+}
+
+/* Section with control buttons */
+#controls {
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Styling for all buttons */
+#controls button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Green button used to show all cards */
+#start-memorizing {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#start-memorizing:hover {
+    background-color: #45a049;
+}
+
+/* Blue button used to start playing */
+#start-playing {
+    background-color: #2196F3;
+    color: white;
+}
+
+#start-playing:hover {
+    background-color: #1976D2;
+}
+
+/* Red button to restart the game */
+#restart {
+    background-color: #f44336;
+    color: white;
+}
+
+#restart:hover {
+    background-color: #d32f2f;
+}
+
+/* Text for current phase */
+#phase-info {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Highlighted phase value */
+#current-phase {
+    color: #2196F3;
+}

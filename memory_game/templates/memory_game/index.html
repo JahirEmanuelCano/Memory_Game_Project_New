@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Memoria</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <h1>Juego de Memoria</h1>
+
+    <div id="game-status">
+        <div id="phase-info">Fase: <span id="current-phase">Preparación</span></div>
+        <div id="moves">Movimientos: {{ game.moves }}</div>
+    </div>
+
+    <div id="controls">
+        <button id="start-memorizing" style="display: block;">Comenzar Memorización (Mostrar Cartas)</button>
+        <button id="start-playing" style="display: none;">Comenzar Juego (Ocultar Cartas)</button>
+        <button id="restart">Reiniciar Juego</button>
+    </div>
+
+    <div id="instructions" style="margin: 20px 0; padding: 10px; background: #f0f0f0; border-radius: 5px;">
+        <p><strong>¿Cómo jugar?</strong></p>
+        <p id="instruction-text">Haz clic en "Comenzar Memorización" para ver todas las cartas y memorizar sus posiciones.</p>
+    </div>
+
+    <div id="board" class="board">
+        {# Render one div per card with its index stored in a data attribute #}
+        {% for card in game.cards %}
+        <div class="card" data-index="{{ forloop.counter0 }}"></div>
+        {% endfor %}
+    </div>
+
+    <div id="message" class="message" style="display: none;">¡Ganaste!</div>
+
+    <script src="/static/js/game.js"></script>
+</body>
+</html>
