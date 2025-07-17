@@ -1,6 +1,16 @@
 /**
  * Actualiza el DOM para reflejar el estado actual del tablero recibido del backend.
  */
+
+function setDifficulty(level) {
+    fetch(`/set-difficulty/${level}/`)
+        .then(response => response.json())
+        .then(data => {
+            updateBoard(data);
+            window.location.href = '/restart/';
+        });
+}
+
 function updateBoard(data) {
     const board = document.getElementById('board');
     const cards = board.getElementsByClassName('card');
@@ -27,7 +37,12 @@ function updateBoard(data) {
     // Mostrar mensaje si el jugador gana
     if (data.win) {
         document.getElementById('message').style.display = 'block';
+    } 
+    if (data.lose){
+         document.getElementById('message2').style.display = 'block';
     }
+    
+
 }
 
 /**
@@ -114,3 +129,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('start-memorizing').addEventListener('click', startMemorizing);
     document.getElementById('start-playing').addEventListener('click', startPlaying);
 });
+
+function cambiarColumnas(columnas) {
+  const board = document.getElementById("board");
+  board.style.gridTemplateColumns = `repeat(${columnas}, 160px)`;
+  /* (Opcional) generar celdas para ver el efecto
+  board.innerHTML = ''; // limpiar
+  for (let i = 0; i < filas * 4; i++) {
+    const celda = document.createElement("div");
+    celda.textContent = i + 1;
+    board.appendChild(celda);
+  }*/
+}
+
+

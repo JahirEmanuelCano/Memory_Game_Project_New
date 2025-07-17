@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de Memoria</title>
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
+
 <body>
     <h1>Juego de Memoria</h1>
 
@@ -15,6 +17,13 @@
     </div>
 
     <div id="controls">
+        <div id="difficulty-selection">
+            <p><strong>Selecciona la dificultad:</strong></p>
+            <button id="facil" onclick="setDifficulty('facil')">Fácil</button>
+            <button id="medio" onclick="setDifficulty('medio')">Medio</button>
+            <button id="dificil" onclick="setDifficulty('dificil')">Difícil</button>
+        </div>
+
         <button id="start-memorizing" style="display: block;">Comenzar Memorización (Mostrar Cartas)</button>
         <button id="start-playing" style="display: none;">Comenzar Juego (Ocultar Cartas)</button>
         <button id="restart">Reiniciar Juego</button>
@@ -22,7 +31,8 @@
 
     <div id="instructions" style="margin: 20px 0; padding: 10px; background: #f0f0f0; border-radius: 5px;">
         <p><strong>¿Cómo jugar?</strong></p>
-        <p id="instruction-text">Haz clic en "Comenzar Memorización" para ver todas las cartas y memorizar sus posiciones.</p>
+        <p id="instruction-text">Haz clic en "Comenzar Memorización" para ver todas las cartas y memorizar sus
+            posiciones.</p>
     </div>
 
     <div id="board" class="board">
@@ -34,6 +44,10 @@
 
     <div id="message" class="message" style="display: none;">¡Ganaste!</div>
 
+         
+    <div id="message2" class="message2" style="display: none;">¡Perdiste!</div>
+
     <script src="/static/js/game.js"></script>
 </body>
+
 </html>

@@ -4,6 +4,8 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
         # AJAX endpoint to flip a card
+    path('set-difficulty/<str:level>/', views.set_difficulty, name='set_difficulty'),
+    #cambia la dificultad del juego
     path('flip/<int:index>/', views.flip_card, name='flip'),
     # Reset the current game
     path('restart/', views.restart_game, name='restart'),

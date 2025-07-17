@@ -8,25 +8,26 @@ body {
 /* Container for the cards */
 .board {
     display: grid;
-    grid-template-columns: repeat(4, 80px);
-    grid-gap: 10px;
+    grid-template-columns: repeat(6, 160px);
+    grid-gap: 20px;
     justify-content: center;
     margin-top: 20px;
 }
 
 /* Individual card style */
 .card {
-    width: 80px;
-    height: 80px;
+    width: 135px;
+    height: 150px;
     background-color: #4CAF50;
     color: white;
-    font-size: 30px;
+    font-size: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     user-select: none;
 }
+
 
 /* Style for cards that have been matched */
 .card.matched {
@@ -41,6 +42,12 @@ body {
     font-weight: bold;
 }
 
+#message2 {
+    margin-top: 20px;
+    font-size: 24px;
+    color: red;
+    font-weight: bold;
+}
 /* Container for phase and move display */
 #game-status {
     display: flex;
@@ -94,6 +101,19 @@ body {
     color: white;
 }
 
+#facil {
+    background-color: #09eb3a;
+    color: white;
+}
+
+#medio {
+    background-color: #d5eb10;
+    color: white;
+}
+#dificil {
+    background-color: #ce0505;
+    color: white;
+}
 #restart:hover {
     background-color: #d32f2f;
 }

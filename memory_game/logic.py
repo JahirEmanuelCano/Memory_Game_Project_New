@@ -2,7 +2,6 @@
 
 import random
 
-
 class GameBoard:
     """Representation of the memory game board and its current state."""
 
@@ -14,6 +13,8 @@ class GameBoard:
         data : dict, optional
             Serialized board state previously returned by :meth:`to_dict`.
         """
+        self.errors = 0
+
         if data:
             # Restore saved state from the session
             self.cards = data.get('cards', [])
@@ -22,18 +23,36 @@ class GameBoard:
             self.phase = data.get('phase', 'setup')  # setup, memorizing, playing
             self.start_time = data.get('start_time', None)
         else:
-            self.new_game()
+            # Si no se provee data, inicializa con el valor por defecto.
+            self._init_board(8)  # Por defecto se crean 8 pares (16 cartas)
 
-    def new_game(self):
-        """Initialize a new shuffled board in ``setup`` phase."""
-        pairs = list(range(8)) * 2
+    def _init_board(self, num_pairs):
+
+        # Genera los pares (los números van del 1 al num_pairs)
+        pairs = list(range(1, num_pairs + 1)) * 2
         random.shuffle(pairs)
         self.cards = pairs
-        # 0 = hidden, 1 = flipped, 2 = matched
+        # 0 = oculta, 1 = volteada, 2 = emparejada
         self.states = [0] * len(self.cards)
         self.moves = 0
         self.phase = 'setup'  # setup, memorizing, playing
         self.start_time = None
+
+    
+    @classmethod
+    def new_game(cls, num_pairs=8):
+        """Crea y devuelve un nuevo juego con el número de pares especificado.
+
+        Parámetros:
+            num_pairs (int): Número de pares. Ej.: 4 (fácil), 8 (medio), 12 (difícil).
+
+        Retorna:
+            GameBoard: Una instancia nueva inicializada.
+        """
+        
+        instance = cls()
+        instance._init_board(num_pairs)
+        return instance
 
     def flip(self, index):
         """Flip a card and evaluate if a pair is found.
@@ -49,6 +68,7 @@ class GameBoard:
         bool
             ``True`` if the flipped pair does not match, ``False`` otherwise.
         """
+        
         if index is None:
             # Called after a delay to hide unmatched cards
             self._resolve_mismatch()
@@ -78,6 +98,7 @@ class GameBoard:
                 mismatch = False
             else:
                 mismatch = True
+                self.errors +=1
             self.moves += 1
         return mismatch
 
@@ -96,6 +117,9 @@ class GameBoard:
     def is_win(self):
         """Return ``True`` if all cards have been matched."""
         return all(s == 2 for s in self.states)
+    
+    def is_lose(self):
+       return self.errors>=1
     
     def start_memorizing(self):
         """Begin the memorizing phase showing all cards."""

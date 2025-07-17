@@ -5,9 +5,39 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .logic import GameBoard
-
+import random
 # Key used to store the serialized :class:`GameBoard` in the session
 SESSION_KEY = 'game_state'
+
+def set_difficulty(request, level):
+    """
+    Set the game difficulty and initialize a new game.
+    Difficulty can be: 'facil', 'medio', 'dificil'
+    """
+    levels = {
+        'facil': 3,    # 3 pairs = 6 cards
+        'medio': 6,    # 6 pairs = 12 cards
+        'dificil': 12  # 12 pairs = 24 cards
+    }
+    num_pairs = levels.get(level, 3)  # Default to 'facil'
+
+    # Store difficulty in session
+    request.session['difficulty'] = level
+
+    # Create a new GameBoard with the desired number of pairs
+    game = GameBoard.new_game(num_pairs)
+    request.session[SESSION_KEY] = game.to_dict()
+
+    # Return JSON for frontend to update
+    response = {
+        'cards': game.cards,
+        'states': game.states,
+        'moves': game.moves,
+        'phase': game.phase,
+        'win': game.is_win(),
+        'lose':game.is_lose(),
+    }
+    return JsonResponse(response)
 
 
 def get_game(request):
@@ -26,11 +56,24 @@ def get_game(request):
     GameBoard
         The game board representing the current game state.
     """
+def get_game(request):
+    """Retrieve or create the current GameBoard."""
     data = request.session.get(SESSION_KEY)
-    game = GameBoard(data)
-    # Persist the (possibly new) game state in the session
+    if data:
+        game = GameBoard(data)
+    else:
+        level = request.session.get('difficulty', 'facil')
+        levels = {
+            'facil': 3,
+            'medio': 6,
+            'dificil': 12
+        }
+        num_pairs = levels.get(level, 3)
+        game = GameBoard.new_game(num_pairs)
+    
     request.session[SESSION_KEY] = game.to_dict()
     return game
+
 
 
 def index(request):
@@ -58,6 +101,7 @@ def flip_card(request, index):
         'states': game.states,
         'moves': game.moves,
         'win': game.is_win(),
+        'lose': game.is_lose(),
         'mismatch': mismatch,
         'phase': game.phase,
     }
@@ -82,6 +126,7 @@ def start_memorizing(request):
         'moves': game.moves,
         'phase': game.phase,
         'win': False,
+        'lose':False,
     }
     return JsonResponse(response)
 
@@ -97,5 +142,6 @@ def start_playing(request):
         'moves': game.moves,
         'phase': game.phase,
         'win': False,
+        'lose':False,
     }
     return JsonResponse(response)
