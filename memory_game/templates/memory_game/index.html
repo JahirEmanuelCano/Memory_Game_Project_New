@@ -19,9 +19,9 @@
     <div id="controls">
         <div id="difficulty-selection">
             <p><strong>Selecciona la dificultad:</strong></p>
-            <button id="facil" onclick="setDifficulty('facil')">Fácil</button>
-            <button id="medio" onclick="setDifficulty('medio')">Medio</button>
-            <button id="dificil" onclick="setDifficulty('dificil')">Difícil</button>
+            <button id="facil" onclick="setDifficulty('facil')" >Fácil</button>
+            <button id="medio" onclick="setDifficulty('medio')" >Medio</button>
+            <button id="dificil" onclick="setDifficulty('dificil')" >Difícil</button>
         </div>
 
         <button id="start-memorizing" style="display: block;">Comenzar Memorización (Mostrar Cartas)</button>
@@ -38,7 +38,11 @@
     <div id="board" class="board">
         {# Render one div per card with its index stored in a data attribute #}
         {% for card in game.cards %}
-        <div class="card" data-index="{{ forloop.counter0 }}"></div>
+        <div class="card" data-index="{{ forloop.counter0 }}">
+            <div class="card-content">
+                <div class="card-back">❓</div>
+            </div>
+        </div>
         {% endfor %}
     </div>
 

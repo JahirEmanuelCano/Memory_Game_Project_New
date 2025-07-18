@@ -6,8 +6,8 @@ function setDifficulty(level) {
     fetch(`/set-difficulty/${level}/`)
         .then(response => response.json())
         .then(data => {
-            updateBoard(data);
-            window.location.href = '/restart/';
+              window.location.href = '/restart/';
+                    updateBoard(data);
         });
 }
 
@@ -17,11 +17,24 @@ function updateBoard(data) {
     for (let i = 0; i < cards.length; i++) {
         const card = cards[i];
         const state = data.states[i];
+        const cardContent = card.querySelector('.card-content');
+        
         if (state === 0) {
-            card.textContent = '';
-            card.classList.remove('matched');
+            // Carta oculta - mostrar reverso
+            cardContent.innerHTML = '<div class="card-back">❓</div>';
+            card.classList.remove('matched', 'flipped');
         } else {
-            card.textContent = data.cards[i];
+            // Carta visible - mostrar imagen
+            const image = data.cards[i];
+            if (image.startsWith('/static/')) {
+                // Si es una ruta de imagen
+                cardContent.innerHTML = `<img src="${image}" alt="Carta" class="card-image">`;
+            } else {
+                // Si es un emoji
+                cardContent.innerHTML = `<div class="card-emoji">${image}</div>`;
+            }
+            
+            card.classList.add('flipped');
             if (state === 2) {
                 card.classList.add('matched');
             }
@@ -29,25 +42,22 @@ function updateBoard(data) {
     }
     document.getElementById('moves').textContent = 'Movimientos: ' + data.moves;
     
-    // Actualizar información de fase
-    if (data.phase) {
+        if (data.phase) {
         updatePhase(data.phase);
-    }
+     }
 
-    // Mostrar mensaje si el jugador gana
-    if (data.win) {
+         if (data.win) {
         document.getElementById('message').style.display = 'block';
-    } 
-    if (data.lose){
-         document.getElementById('message2').style.display = 'block';
+     } 
+         if (data.lose){
+        document.getElementById('message2').style.display = 'block';
+     }
     }
-    
 
-}
 
-/**
- * Cambia los elementos de la interfaz según la fase actual del juego.
- */
+    /**
+    * Cambia los elementos de la interfaz según la fase actual del juego.
+    */
 function updatePhase(phase) {
     const phaseElement = document.getElementById('current-phase');
     const instructionElement = document.getElementById('instruction-text');
